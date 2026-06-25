@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "456688600907",
+    "project_id": "hiking-uas-beryl",
+    "storage_bucket": "hiking-uas-beryl.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456688600907:android:cdedc208e27e26ab6b0ace",
+        "android_client_info": {
+          "package_name": "com.example.hiking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDSP_8tK_SoyeJm_6nGvBCdz1YEh2zKog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456688600907:android:06a85502201b389f6b0ace",
+        "android_client_info": {
+          "package_name": "com.example.hiking_wallet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDSP_8tK_SoyeJm_6nGvBCdz1YEh2zKog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
