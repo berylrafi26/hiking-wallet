@@ -33,6 +33,14 @@ class GoogleAuthenticatorScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.green,
       ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(children: [
+          
+          ],
+        ),
+      ),
     );
   }
 }
