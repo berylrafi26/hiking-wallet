@@ -66,6 +66,18 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
         ),
         backgroundColor: Colors.green,
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(25),
+        child: Column(
+          children: [
+            const SizedBox(height: 30),
+
+            const Icon(Icons.security, size: 90, color: Colors.green),
+
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
     );
   }
 }
