@@ -75,6 +75,14 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
             const Icon(Icons.security, size: 90, color: Colors.green),
 
             const SizedBox(height: 20),
+
+            const Text(
+              "Masukkan kode dari Google Authenticator",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 30),
           ],
         ),
       ),
