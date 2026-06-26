@@ -53,5 +53,14 @@ class _LoginScreenState extends State<LoginScreen> {
         SnackBar(content: Text(e.toString().replaceFirst("Exception: ", ""))),
       );
     }
+
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
+
+  @override
+ 
 }
