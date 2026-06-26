@@ -82,6 +82,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.white.withOpacity(0.95),
                 borderRadius: BorderRadius.circular(20),
               ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.account_balance_wallet,
+                    color: Colors.green,
+                    size: 70,
+                  ),
+
+                  const SizedBox(height: 15),
+                ],
+              ),
             ),
           ),
         ),
