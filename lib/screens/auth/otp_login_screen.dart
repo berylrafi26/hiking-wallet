@@ -39,6 +39,10 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
         MaterialPageRoute(builder: (_) => WalletHomeScreen(uid: widget.uid)),
         (route) => false,
       );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Kode Google Authenticator salah")),
+      );
     }
   }
 }
