@@ -92,6 +92,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   const SizedBox(height: 15),
+
+                  const Text(
+                    "Hiking Wallet",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+
+                  const SizedBox(height: 5),
+
+                  const Text(
+                    "Secure E-Money Wallet",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
