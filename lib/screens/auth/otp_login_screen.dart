@@ -44,5 +44,28 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
         const SnackBar(content: Text("Kode Google Authenticator salah")),
       );
     }
+
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    otpController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Verifikasi OTP",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 }
