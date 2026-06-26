@@ -33,6 +33,12 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
 
     if (otpController.text.trim() == currentOtp) {
       if (!mounted) return;
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => WalletHomeScreen(uid: widget.uid)),
+        (route) => false,
+      );
     }
   }
 }
