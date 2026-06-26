@@ -77,6 +77,35 @@ class GoogleAuthenticatorScreen extends StatelessWidget {
                   child: const Text("Saya Sudah Scan"),
                 ),
               ),
+            ] else ...[
+              const Spacer(),
+
+              const Icon(Icons.verified_user, size: 90, color: Colors.green),
+
+              const SizedBox(height: 20),
+
+              const Text(
+                "Google Authenticator sudah aktif",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+
+              const Spacer(),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            OtpLoginScreen(uid: uid, secret: secret),
+                      ),
+                    );
+                  },
+                  child: const Text("Lanjut"),
+                ),
+              ),
             ],
           ],
         ),
