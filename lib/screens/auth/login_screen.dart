@@ -39,6 +39,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (!mounted) return;
 
-    
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) =>
+              GoogleAuthenticatorScreen(secret: secret, email: user.email!),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString().replaceFirst("Exception: ", ""))),
+      );
+    }
   }
 }
