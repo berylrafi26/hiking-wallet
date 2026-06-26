@@ -36,14 +36,18 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       final secret = await WalletService().prepareTotp(user.uid);
-
+      final enabled = await WalletService().isTotpEnabled(user.uid);
       if (!mounted) return;
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) =>
-              GoogleAuthenticatorScreen(secret: secret, email: user.email!),
+          builder: (_) => GoogleAuthenticatorScreen(
+            uid: user.uid,
+            email: user.email!,
+            secret: secret,
+            isFirstSetup: !enabled,
+          ),
         ),
       );
     } catch (e) {

@@ -3,6 +3,21 @@ import 'totp_service.dart';
 
 class WalletService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Future<bool> isTotpEnabled(String uid) async {
+    final doc = await _firestore.collection('wallets').doc(uid).get();
+
+    if (!doc.exists) return false;
+
+    final data = doc.data()!;
+
+    return data['totpEnabled'] == true;
+  }
+
+  Future<void> enableTotp(String uid) async {
+    await _firestore.collection('wallets').doc(uid).update({
+      'totpEnabled': true,
+    });
+  }
 
   Future<String> prepareTotp(String uid) async {
     final doc = await _firestore.collection('wallets').doc(uid).get();
