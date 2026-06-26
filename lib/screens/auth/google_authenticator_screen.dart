@@ -50,6 +50,33 @@ class GoogleAuthenticatorScreen extends StatelessWidget {
               QrImageView(data: otpUri, size: 250),
 
               const SizedBox(height: 20),
+
+              SelectableText(
+                secret,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+
+              const Spacer(),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await WalletService().enableTotp(uid);
+
+                    if (!context.mounted) return;
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            OtpLoginScreen(uid: uid, secret: secret),
+                      ),
+                    );
+                  },
+                  child: const Text("Saya Sudah Scan"),
+                ),
+              ),
             ],
           ],
         ),
