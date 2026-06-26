@@ -36,8 +36,21 @@ class GoogleAuthenticatorScreen extends StatelessWidget {
 
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(children: [
-          
+        child: Column(
+          children: [
+            if (isFirstSetup) ...[
+              const Text(
+                "Scan QR Code menggunakan Google Authenticator",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+
+              const SizedBox(height: 25),
+
+              QrImageView(data: otpUri, size: 250),
+
+              const SizedBox(height: 20),
+            ],
           ],
         ),
       ),
