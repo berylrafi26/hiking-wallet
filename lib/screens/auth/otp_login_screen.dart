@@ -21,5 +21,18 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
     setState(() {
       loading = true;
     });
+
+    final currentOtp = OTP.generateTOTPCodeString(
+      widget.secret,
+      DateTime.now().millisecondsSinceEpoch,
+      algorithm: Algorithm.SHA1,
+      interval: 30,
+      length: 6,
+      isGoogle: true,
+    );
+
+    if (otpController.text.trim() == currentOtp) {
+      if (!mounted) return;
+    }
   }
 }
