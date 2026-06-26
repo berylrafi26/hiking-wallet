@@ -1,28 +1,29 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'totp_service.dart';
 
-class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+class WalletService {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<User> login({required String email, required String password}) async {
-    final credential = await _auth.signInWithEmailAndPassword(
-      email: email.trim(),
-      password: password.trim(),
-    );
+  Future<String> prepareTotp(String uid) async {
+    final doc = await _firestore.collection('wallets').doc(uid).get();
 
-    await credential.user!.reload();
-
-    final user = FirebaseAuth.instance.currentUser!;
-
-    if (!user.emailVerified) {
-      throw Exception("Email belum diverifikasi.");
+    if (!doc.exists) {
+      throw Exception("Wallet tidak ditemukan");
     }
 
-    return user;
-  }
+    final data = doc.data()!;
 
-  Future<void> logout() async {
-    await _auth.signOut();
-  }
+    if (data['totpSecret'] != null &&
+        data['totpSecret'].toString().isNotEmpty) {
+      return data['totpSecret'];
+    }
 
-  User? get currentUser => _auth.currentUser;
+    final secret = TotpService.generateSecret();
+
+    await _firestore.collection('wallets').doc(uid).update({
+      'totpSecret': secret,
+    });
+
+    return secret;
+  }
 }
