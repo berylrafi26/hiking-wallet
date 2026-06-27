@@ -119,6 +119,14 @@ class WalletHomeScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 55),
                 ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => TransactionHistoryScreen(uid: uid),
+                    ),
+                  );
+                },
               ),
             ],
           );
