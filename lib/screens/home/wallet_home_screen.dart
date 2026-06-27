@@ -94,6 +94,32 @@ class WalletHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
+              const SizedBox(height: 40),
+
+              ElevatedButton.icon(
+                icon: const Icon(Icons.add_card),
+                label: const Text("Top Up"),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 55),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => TopupScreen(uid: uid)),
+                  );
+                },
+              ),
+
+              const SizedBox(height: 15),
+
+              ElevatedButton.icon(
+                icon: const Icon(Icons.history),
+                label: const Text("Riwayat Transaksi"),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 55),
+                ),
+              ),
             ],
           );
         },
