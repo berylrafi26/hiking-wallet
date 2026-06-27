@@ -65,6 +65,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
+                  title: Text(type == "topup" ? "Top Up" : "Pembayaran"),
                 ),
               );
             },
