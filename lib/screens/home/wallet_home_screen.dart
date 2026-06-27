@@ -82,6 +82,15 @@ class WalletHomeScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 10),
+
+                    Text(
+                      "Rp ${data['balance']}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
