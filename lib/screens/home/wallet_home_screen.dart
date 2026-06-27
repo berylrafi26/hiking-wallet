@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import '../../services/auth_service.dart';
+import '../../services/wallet_service.dart';
+import '../auth/login_screen.dart';
+import '../topup/topup_screen.dart';
+import '../transaction/transaction_history_screen.dart';
+
+class WalletHomeScreen extends StatelessWidget {
+  final String uid;
+
+  const WalletHomeScreen({super.key, required this.uid});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xffF3F7F4),
+
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        title: const Text("Hiking Wallet"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await AuthService().logout();
+
+              if (!context.mounted) return;
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (_) => false,
+              );
+            },
+          ),
+        ],
+      ),
+
+      body: StreamBuilder(
+        stream: WalletService().walletStream(uid),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final data = snapshot.data!.data()!;
+        },
+      ),
+    );
+  }
+}

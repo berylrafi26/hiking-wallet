@@ -3,6 +3,10 @@ import 'totp_service.dart';
 
 class WalletService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Stream<DocumentSnapshot<Map<String, dynamic>>> walletStream(String uid) {
+    return _firestore.collection('wallets').doc(uid).snapshots();
+  }
+
   Future<bool> isTotpEnabled(String uid) async {
     final doc = await _firestore.collection('wallets').doc(uid).get();
 
