@@ -45,6 +45,21 @@ class WalletHomeScreen extends StatelessWidget {
           }
 
           final data = snapshot.data!.data()!;
+
+          return ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              const SizedBox(height: 10),
+
+              const Icon(
+                Icons.account_balance_wallet,
+                color: Colors.green,
+                size: 80,
+              ),
+
+              const SizedBox(height: 20),
+            ],
+          );
         },
       ),
     );
