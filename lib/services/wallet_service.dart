@@ -74,7 +74,6 @@ class WalletService {
     return _firestore
         .collection('transactions')
         .where('uid', isEqualTo: uid)
-        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 }

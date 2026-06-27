@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../services/wallet_service.dart';
-
 class TransactionHistoryScreen extends StatelessWidget {
   final String uid;
 
@@ -18,63 +16,78 @@ class TransactionHistoryScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.green,
       ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: WalletService().transactionStream(uid),
+
+      body: FutureBuilder<QuerySnapshot>(
+        future: FirebaseFirestore.instance.collection('transactions').get(),
+
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          final docs = snapshot.data!.docs.where((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+
+            return data['uid'] == uid || data['userId'] == uid;
+          }).toList();
+
+          docs.sort((a, b) {
+            final ta = (a['createdAt'] as Timestamp).millisecondsSinceEpoch;
+            final tb = (b['createdAt'] as Timestamp).millisecondsSinceEpoch;
+
+            return tb.compareTo(ta);
+          });
+
+          if (docs.isEmpty) {
             return const Center(child: Text("Belum ada transaksi"));
           }
 
-          final transactions = snapshot.data!.docs;
-
           return ListView.builder(
-            itemCount: transactions.length,
+            itemCount: docs.length,
             itemBuilder: (context, index) {
-              final data = transactions[index].data();
+              final data = docs[index].data() as Map<String, dynamic>;
 
-              final amount = data['amount'];
+              final amount = data['amount'] ?? 0;
 
-              final type = data['type'];
+              final status = data['status'] ?? "-";
 
-              final status = data['status'];
+              final bool isTopup = data['type'] == "topup";
 
-              final timestamp = data['createdAt'];
-
-              String date = "-";
-
-              if (timestamp != null) {
-                final dt = (timestamp as Timestamp).toDate();
-
-                date =
-                    "${dt.day}/${dt.month}/${dt.year}  ${dt.hour}:${dt.minute.toString().padLeft(2, '0')}";
-              }
+              final time = (data['createdAt'] as Timestamp).toDate();
 
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: type == "topup"
-                        ? Colors.green
-                        : Colors.orange,
+                    backgroundColor: isTopup ? Colors.green : Colors.orange,
                     child: Icon(
-                      type == "topup" ? Icons.add : Icons.shopping_cart,
+                      isTopup
+                          ? Icons.account_balance_wallet
+                          : Icons.shopping_bag,
                       color: Colors.white,
                     ),
                   ),
-                  title: Text(type == "topup" ? "Top Up" : "Pembayaran"),
+
+                  title: Text(
+                    isTopup ? "Top Up Saldo" : "Pembayaran Hiking",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(date), Text(status)],
+                    children: [
+                      Text(
+                        "${time.day}/${time.month}/${time.year} ${time.hour}:${time.minute.toString().padLeft(2, '0')}",
+                      ),
+                      Text(status),
+                    ],
                   ),
+
                   trailing: Text(
-                    "Rp $amount",
-                    style: const TextStyle(
+                    "${isTopup ? '+' : '-'} Rp $amount",
+                    style: TextStyle(
+                      color: isTopup ? Colors.green : Colors.red,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
                     ),
                   ),
                 ),
