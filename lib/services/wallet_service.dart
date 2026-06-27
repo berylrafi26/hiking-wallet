@@ -69,4 +69,12 @@ class WalletService {
       });
     });
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> transactionStream(String uid) {
+    return _firestore
+        .collection('transactions')
+        .where('uid', isEqualTo: uid)
+        .orderBy('createdAt', descending: true)
+        .snapshots();
+  }
 }
