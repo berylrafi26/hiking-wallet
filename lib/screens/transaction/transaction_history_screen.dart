@@ -45,6 +45,18 @@ class TransactionHistoryScreen extends StatelessWidget {
               final timestamp = data['createdAt'];
 
               String date = "-";
+
+              if (timestamp != null) {
+                final dt = (timestamp as Timestamp).toDate();
+
+                date =
+                    "${dt.day}/${dt.month}/${dt.year}  ${dt.hour}:${dt.minute.toString().padLeft(2, '0')}";
+              }
+
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: ListTile(),
+              );
             },
           );
         },
