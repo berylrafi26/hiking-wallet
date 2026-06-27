@@ -30,6 +30,23 @@ class TransactionHistoryScreen extends StatelessWidget {
           }
 
           final transactions = snapshot.data!.docs;
+
+          return ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: (context, index) {
+              final data = transactions[index].data();
+
+              final amount = data['amount'];
+
+              final type = data['type'];
+
+              final status = data['status'];
+
+              final timestamp = data['createdAt'];
+
+              String date = "-";
+            },
+          );
         },
       ),
     );
