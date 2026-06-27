@@ -55,7 +55,17 @@ class TransactionHistoryScreen extends StatelessWidget {
 
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: ListTile(),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: type == "topup"
+                        ? Colors.green
+                        : Colors.orange,
+                    child: Icon(
+                      type == "topup" ? Icons.add : Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               );
             },
           );
