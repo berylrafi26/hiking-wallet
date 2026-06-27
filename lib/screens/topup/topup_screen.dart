@@ -67,6 +67,52 @@ class _TopupScreenState extends State<TopupScreen> {
         ),
         backgroundColor: Colors.green,
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+
+            const Icon(
+              Icons.account_balance_wallet,
+              size: 80,
+              color: Colors.green,
+            ),
+
+            const SizedBox(height: 30),
+
+            TextField(
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Nominal",
+                hintText: "50000",
+                prefixText: "Rp ",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: loading ? null : topup,
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                child: loading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text(
+                        "Top Up",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
