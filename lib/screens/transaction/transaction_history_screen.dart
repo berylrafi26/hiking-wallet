@@ -66,6 +66,17 @@ class TransactionHistoryScreen extends StatelessWidget {
                     ),
                   ),
                   title: Text(type == "topup" ? "Top Up" : "Pembayaran"),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(date), Text(status)],
+                  ),
+                  trailing: Text(
+                    "Rp $amount",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
                 ),
               );
             },
