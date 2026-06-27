@@ -45,4 +45,28 @@ class WalletService {
 
     return secret;
   }
+
+  Future<void> topUp({required String uid, required int amount}) async {
+    final walletRef = _firestore.collection('wallets').doc(uid);
+
+    await _firestore.runTransaction((transaction) async {
+      final snapshot = await transaction.get(walletRef);
+
+      if (!snapshot.exists) {
+        throw Exception("Wallet tidak ditemukan");
+      }
+
+      final currentBalance = snapshot['balance'];
+
+      transaction.update(walletRef, {'balance': currentBalance + amount});
+
+      transaction.set(_firestore.collection('transactions').doc(), {
+        'uid': uid,
+        'type': 'topup',
+        'amount': amount,
+        'status': 'success',
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    });
+  }
 }
