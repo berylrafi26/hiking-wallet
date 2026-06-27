@@ -58,6 +58,15 @@ class WalletHomeScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 20),
+
+              Center(
+                child: Text(
+                  data['email'],
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
+
+              const SizedBox(height: 30),
             ],
           );
         },
