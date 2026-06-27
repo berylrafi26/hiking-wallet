@@ -67,6 +67,24 @@ class WalletHomeScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 30),
+
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      "Saldo",
+                      style: TextStyle(color: Colors.white70),
+                    ),
+
+                    const SizedBox(height: 10),
+                  ],
+                ),
+              ),
             ],
           );
         },
