@@ -15,14 +15,28 @@ class TransactionHistoryScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.green,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-
-      body: FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection('transactions').get(),
-
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('transactions')
+            .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "Error : ${snapshot.error}",
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
+          }
+
+          if (!snapshot.hasData) {
+            return const Center(child: Text("Tidak ada data"));
           }
 
           final docs = snapshot.data!.docs.where((doc) {
@@ -32,8 +46,11 @@ class TransactionHistoryScreen extends StatelessWidget {
           }).toList();
 
           docs.sort((a, b) {
-            final ta = (a['createdAt'] as Timestamp).millisecondsSinceEpoch;
-            final tb = (b['createdAt'] as Timestamp).millisecondsSinceEpoch;
+            final ta =
+                (a['createdAt'] as Timestamp?)?.millisecondsSinceEpoch ?? 0;
+
+            final tb =
+                (b['createdAt'] as Timestamp?)?.millisecondsSinceEpoch ?? 0;
 
             return tb.compareTo(ta);
           });
@@ -43,20 +60,26 @@ class TransactionHistoryScreen extends StatelessWidget {
           }
 
           return ListView.builder(
+            padding: const EdgeInsets.all(12),
             itemCount: docs.length,
             itemBuilder: (context, index) {
               final data = docs[index].data() as Map<String, dynamic>;
 
-              final amount = data['amount'] ?? 0;
+              final String type = data['type']?.toString() ?? 'purchase';
 
-              final status = data['status'] ?? "-";
+              final bool isTopup = type == "topup";
 
-              final bool isTopup = data['type'] == "topup";
+              final int amount = (data['amount'] ?? data['total'] ?? 0) as int;
 
-              final time = (data['createdAt'] as Timestamp).toDate();
+              final String status = data['status']?.toString() ?? "-";
+
+              final Timestamp? ts = data['createdAt'] as Timestamp?;
+
+              final DateTime? time = ts?.toDate();
 
               return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                elevation: 2,
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 child: ListTile(
                   leading: CircleAvatar(
                     backgroundColor: isTopup ? Colors.green : Colors.orange,
@@ -67,22 +90,24 @@ class TransactionHistoryScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-
                   title: Text(
                     isTopup ? "Top Up Saldo" : "Pembayaran Hiking",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 4),
                       Text(
-                        "${time.day}/${time.month}/${time.year} ${time.hour}:${time.minute.toString().padLeft(2, '0')}",
+                        time == null
+                            ? "-"
+                            : "${time.day}/${time.month}/${time.year} "
+                                  "${time.hour}:${time.minute.toString().padLeft(2, '0')}",
                       ),
+                      const SizedBox(height: 4),
                       Text(status),
                     ],
                   ),
-
                   trailing: Text(
                     "${isTopup ? '+' : '-'} Rp $amount",
                     style: TextStyle(

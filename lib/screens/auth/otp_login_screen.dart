@@ -95,7 +95,7 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                 fontWeight: FontWeight.bold,
               ),
               decoration: InputDecoration(
-                hintText: "123456",
+                hintText: "------",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
